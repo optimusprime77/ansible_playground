@@ -1,0 +1,20 @@
+# ~/ansible_playground/sudo.yml
+
+- hosts: all
+  tasks:
+    - name: Install sudo
+      yum: pkg=sudo state=present
+      become: true
+
+    - name: Create group
+      group:
+        name: sudo_group
+        gid: 500
+        state: present
+      become: true
+
+    - name: Allow sudo users to run commands without password 
+      template:
+        src: sudo_config.j2
+        dest: /etc/sudoers.d/sudoers
+      become: true

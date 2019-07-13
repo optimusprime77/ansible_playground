@@ -1,0 +1,23 @@
+# ~/ansible_playground/liagent.yml
+
+- hosts: all
+  tasks:
+    - name: Install LogInsight agent
+      yum: 
+        name: "{{ liagent_package_url }}"
+        state: present
+      become: true
+    
+    - name: Customize the liagent.ini config file
+      template:
+        src: liagent.ini.j2
+        dest:  "{{ liagent_config_file }}"
+        owner: 'root' 
+        group: "{{ liagent_root_group }}"
+        mode: 0644
+    
+    - name: Ensure liagent is started and enabled to start at boot.
+      service: 
+        name: "{{ liagent_service_name }}"
+        state: started
+        enabled: yes

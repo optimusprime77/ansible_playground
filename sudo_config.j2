@@ -1,0 +1,6 @@
+{% if nopassword %}
+sudo_rooot ALL=(ALL:ALL) NOPASSWD:ALL
+{% endif %}
+{% if nopassword == 'false' %}
+sudo_root ALL=(ALL) ALL
+{% endif %}
